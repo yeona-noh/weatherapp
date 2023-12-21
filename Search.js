@@ -23,6 +23,25 @@ const Search = ({onSearch}) => {
         
     };
 
+        const getCurrentWeather = async (lat,lon) => {
+        try {
+            let response = await axios.get("https://api.openweathermap.org/data/2.5/weather", {
+                params: { 
+                    lat: lat,
+                    lon: lon,
+                    appid: WEATHER_API_KEY,
+                    units: "imperial"
+                }
+            });
+            console.log(response.data.main);
+            return response;
+            
+        } catch(error) {
+            console.log(error)
+            return error;
+        }
+    }
+
     const [location, setLocation] = useState("");
     const handleSubmit = async (event) => {
         if (location) {
@@ -31,6 +50,7 @@ const Search = ({onSearch}) => {
               }
         event.preventDefault();
         let {lat,lon} = await getCoordinate(location)
+        getCurrentWeather(lat,lon)
         // console.log(lat)
         // console.log(lon)
 
