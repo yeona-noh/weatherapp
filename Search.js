@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import axios from "axios";
+import WeatherDisplay from "./WeatherDisplay";
 const RADAR_API_KEY = "prj_test_pk_bc98832a3852b7f7969e08b3d319fd70e13d2d77";
 const WEATHER_API_KEY = "18a3631b896350dd1d53a177819cffbd";
 const Search = ({onSearch}) => {
-    
+    const [weatherData, setWeatherData] = useState();
+
     const getCoordinate = async (city) => {
         try {
             let res = await axios.get("https://api.radar.io/v1/geocode/forward",{
@@ -33,8 +35,8 @@ const Search = ({onSearch}) => {
                     units: "imperial"
                 }
             });
-            console.log(response.data.main);
-            return response;
+
+            return response.data.main;
             
         } catch(error) {
             console.log(error)
@@ -50,19 +52,24 @@ const Search = ({onSearch}) => {
               }
         event.preventDefault();
         let {lat,lon} = await getCoordinate(location)
-        getCurrentWeather(lat,lon)
+        let main = await getCurrentWeather(lat,lon)
         // console.log(lat)
         // console.log(lon)
+        console.log(main)
+        setWeatherData(main);
 
     }
     
     return(
+        <div>
         <form onSubmit={handleSubmit}>
         <input type="text" id="lname" name="lname" 
         value={location} onChange={(e) => 
         setLocation(e.target.value)}/>
         <button type="submit">Search</button>
         </form>
+        <WeatherDisplay weatherData={weatherData}/>
+        </div>
     )
 }
 
