@@ -1,15 +1,17 @@
 import React from "react";
-const WeatherDisplay = ({weatherData}) => {
-    if(weatherData) {
+const WeatherDisplay = (data) => {
+    
+    if(data) {
       return(
-        <div>
-          <h1>WeatherDisplay</h1>
-          <p>Feels like: {weatherData.feels_like}</p>
-          <p>humidity: {weatherData.humidity}</p>
-          <p>pressure: {weatherData.pressure}</p>
-          <p>temp: {weatherData.temp}</p>
-          <p>temp_max: {weatherData.temp_max}</p>
-          <p>temp_min: {weatherData.temp_min}</p>
+        <div className="weather">
+          <h1 className="time">{data.time}</h1>
+          <div className="tempGroup">
+            <p>Highest temperature: {data.temp_max}</p>
+            <p>Lowest temperature: {data.temp_min}</p>
+            <p>Feels like: {data.feels}</p>
+            <p>Humidity: {data.humidity}</p>
+            <p>Pressure: {data.pressure}</p>
+          </div>
         </div>
       )
     } else {
